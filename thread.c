@@ -53,6 +53,12 @@ void *thread_create(void(*start_routine)(void*), void *arg){
     return 0;
 }
 
+void *thread_yield(void)
+{
+	tsleep();
+	return 0;
+}
+
 // generate 0 -> max random number exclude max.
 int random(int max){
     rands = rands * 1664525 + 1013904233;
