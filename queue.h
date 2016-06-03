@@ -1,3 +1,5 @@
+#ifndef _QUEUE_
+#define _QUEUE_
 struct node{
     int value;
     struct node *next;
@@ -10,11 +12,12 @@ struct queue{
 };
 
 // queue library
-void init_q(struct queue *);
-void add_q(struct queue *, int);
-int empty_q(struct queue *);
-int pop_q(struct queue *);
+void init_q(struct queue *q);
+void add_q(struct queue *q, int v);
+int empty_q(struct queue *q);
+int pop_q(struct queue *q);
+int front(struct queue *q);
 
 
 
-
+#endif

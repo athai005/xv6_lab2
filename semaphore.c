@@ -1,18 +1,19 @@
+#ifndef _SEMAPHORE_
+#define _SEMAPHORE_
 #include "queue.c"
-
 struct Semaphore
 {
    int count;
-   queue q;
+   struct queue q;
 };
 
-void Sem_init(Semaphore * s, int v)
+void sem_init(struct Semaphore * s, int v)
 {
    s->count = v;
    init_q(&(s->q)); 
 }
 
-void sem_acquire(Semaphore *s)
+void sem_acquire(struct Semaphore *s)
 {
    //if count is positive, decrement count
    if(s->count > 0)
@@ -22,13 +23,14 @@ void sem_acquire(Semaphore *s)
    //if count is zero, thread added to queue and waits
    else
    {
-      add_queue(&(s->q),getpid());
-      while(count == 0 || front(&(s->q)) != getpid()) wait();
+      add_q(&(s->q),getpid());
+      while(s->count == 0 || front(&(s->q)) != getpid()) wait();
    }
 }
 
-void sem_signal(Semaphore *s)
+void sem_signal(struct Semaphore *s)
 {
    //increment count
    (s->count)++;
 }
+#endif
