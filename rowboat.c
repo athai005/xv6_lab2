@@ -17,7 +17,7 @@ int threadcount = 0;
 
 void rowboat()
 {
-   printf(1,"Rowboat sent: ");
+   printf(1,"Rowboat sent; Passengers are ");
 }
 
 void MissionaryArrives(void* v)
@@ -45,7 +45,7 @@ void MissionaryArrives(void* v)
    			 sem_signal(&l);
    			 rowboat();
    			 
-				printf(1, "Boat left with 3 Missionaries\n");
+				printf(1, "3 Missionaries\n");
       }
       else if(miss >= 2 && cann >= 1)
       {
@@ -54,7 +54,7 @@ void MissionaryArrives(void* v)
          sem_signal(&c);
          sem_signal(&l);
    			 rowboat();
-				printf(1, "Boat left with 2 Missionaries, 1 cannibal\n");
+				printf(1, "2 Missionaries, 1 cannibal\n");
       }
       else
       {
@@ -88,7 +88,7 @@ void CannibalArrives(void* v)
          sem_signal(&c);
          sem_signal(&l);
          rowboat();
-				printf(1, "Boat left with 3 Cannibals\n");
+				printf(1, "3 Cannibals\n");
       }
       else if(miss>=2 && cann >= 1)
       {
@@ -98,7 +98,7 @@ void CannibalArrives(void* v)
          sem_signal(&m);
          sem_signal(&l);
          rowboat();
-				printf(1, "Boat left with 2 Missionaries, 1 cannibal\n");
+				printf(1, "2 Missionaries, 1 cannibal\n");
       }
       else
       {

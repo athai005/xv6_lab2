@@ -31,6 +31,8 @@ int main(int argc, char * argv[])
 
 	printf(1, "%d water molecules should be created\n\n", numo);
 
+	if (numo == 0) exit();
+
   Sem_init(&h, 0);
   Sem_init(&o, 0);
   Sem_init(&l, 1);
