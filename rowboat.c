@@ -21,7 +21,7 @@ void MissionaryArrives(void* v)
 {
    sem_acquire(&l);
    miss++;
-   if(miss+cann<3 || miss == 1)
+   if(miss+cann<3 || (miss == 1 && cann == 2))
    {
       sem_signal(&l);
       sem_acquire(&m);
@@ -41,10 +41,10 @@ void MissionaryArrives(void* v)
          miss = miss - 3;
          sem_signal(&m);
          sem_signal(&m);
+   			 sem_signal(&l);
+   			 rowboat();
       }
    }
-   sem_signal(&l);
-   rowboat();
 
    texit();
 }
@@ -94,6 +94,10 @@ int main(int argc, char* argv[])
 	if (numm == 1 && numc == 2)
 	{
 		printf(1, "Congratulations! You just let two cannibals kill a missionary.\n");
+		exit();
+	}
+	if (numm + numc < 3)
+	{
 		exit();
 	}
 
