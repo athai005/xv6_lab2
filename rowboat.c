@@ -29,25 +29,31 @@ void MissionaryArrives(void* v)
    }
    else
    {
-      if(cann >= 1)
-      {
-         miss = miss-2;
-         cann--;
-         sem_signal(&c);
-         sem_signal(&l);
-   			 rowboat();
-      }
-      else if (miss >= 3)
+      if (miss >= 3)
       {
          miss = miss - 3;
          sem_signal(&m);
          sem_signal(&m);
    			 sem_signal(&l);
    			 rowboat();
+   			 
+				printf(1, "Boat left with 3 Missionaries\n");
       }
-      else if (miss == 1 && cann == 2) exit();
+      else if(miss >= 2 && cann >= 1)
+      {
+         miss = miss-2;
+         cann--;
+         sem_signal(&c);
+         sem_signal(&l);
+   			 rowboat();
+				printf(1, "Boat left with 2 Missionaries, 1 cannibal\n");
+      }
+      else if (miss == 1 && cann == 2) 
+      {
+      	sem_signal(&l);
+      	exit();
+      }
    }
-
    texit();
 }
 
@@ -62,7 +68,16 @@ void CannibalArrives(void* v)
    }
    else
    {
-      if(miss>=2)
+      if (cann >= 3) 
+      {
+         cann = cann -3;
+         sem_signal(&c);
+         sem_signal(&c);
+         sem_signal(&l);
+         rowboat();
+				printf(1, "Boat left with 3 Missionaries\n");
+      }
+      else if(miss>=2 && cann >= 1)
       {
          miss=miss-2;   
          cann--;
@@ -70,16 +85,13 @@ void CannibalArrives(void* v)
          sem_signal(&m);
          sem_signal(&l);
          rowboat();
+				printf(1, "Boat left with 2 Missionaries, 1 cannibal\n");
       }
-      else if (cann >= 3) 
+      else if (miss == 1 && cann == 2) 
       {
-         cann = cann -3;
-         sem_signal(&c);
-         sem_signal(&c);
-         sem_signal(&l);
-         rowboat();
+      	sem_signal(&l);
+      	exit();
       }
-      else if (miss == 1 && cann == 2) exit();
    }
    texit();
 }
@@ -104,11 +116,13 @@ int main(int argc, char* argv[])
 	{
 		exit();
 	}
+	/*
 	if ( (numm + numc)%3 != 0)
 	{
 		numm = numm - (numm%3);
 		numc = numc - (numc%3);
 	}
+	*/
 	//else if (numm%3 == 1 && numc%3 == 2) exit();
 
    Sem_init(&l, 1);
