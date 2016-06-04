@@ -5,6 +5,8 @@ Semaphore t;
 
 int coconuts = 0;
 int dominant = 0;
+int numdom = 0;
+int numreg = 0;
 
 void monkey(void* v)
 {
@@ -15,7 +17,7 @@ void monkey(void* v)
    coconuts++;
    int j;
    for(j = 0; j < 100000; j++);
-   printf(1,"%d\n",i);
+   //printf(1,"%d\n",i);
    sem_signal(&t);
    texit();
 }
@@ -30,7 +32,7 @@ void dmonkey(void* v)
    coconuts++;
    int j;
    for(j = 0; j < 100000; j++);
-   printf(1,"d%d\n",i);
+   //printf(1,"d%d\n",i);
    sem_signal(&t);
    texit();
 }
@@ -49,12 +51,11 @@ void part_one()
 void part_two()
 {
    int i;
-   for(i = 1; i < 5; i++)
+   for(i = 0; i < numdom; i++)
    {
-      thread_create(monkey,(void*)i);
+      thread_create(dmonkey,(void*)i);
    }
-   thread_create(dmonkey,(void*)1);
-   for(i = i; i < 10; i++)
+   for(i = 0; i < numreg; i++)
    {
       thread_create(monkey,(void*)i);
    }
@@ -62,10 +63,16 @@ void part_two()
    while(wait() >= 0);
 }   
 
-int main()
+int main(int argc, char* argv[])
 {
+	if (argc != 3)
+	{
+		printf(1, "Proper use: monkey <#regular monkeys> <#dominant monkeys>\n");
+		exit();
+	}
    Sem_init(&t, 3);
-
+   numdom = atoi(argv[2]);
+   numreg = atoi(argv[1]);
 
    //part_one();
    part_two();
