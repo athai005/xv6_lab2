@@ -1,30 +1,38 @@
 #include "semaphore.c"
-#include "types.h"
-#include "user.h"
+#include "thread.h"
 
-struct thread{
-	int tid;
-	int holding;
-};
+void hReady(void*);
+void oReady(void*);
 
-struct{
-	lock_t lock;
-	struct thread thread[64];
-	int total;
-}ttable;
-
-struct Semaphore h,o,l;
 int water = 0;
 
-void watermade()
+Semaphore h;
+Semaphore o;
+Semaphore l;
+
+int main()
 {
-	printf(1, "water made");
-	return;
+
+   Sem_init(&h, 0);
+   Sem_init(&o, 0);
+   Sem_init(&l, 1);
+
+
+   thread_create(hReady,(void*)&water);
+   thread_create(hReady,(void*)&water);  
+   thread_create(oReady,(void*)&water);
+   
+   //main waits for threads to exit   
+   while(wait() >= 0);
+
+   exit();
 }
+
 void hReady(void* v)
 {
    sem_signal(&h);
    sem_acquire(&o);
+   texit();
 }
 
 void oReady(void* v)
@@ -35,24 +43,8 @@ void oReady(void* v)
    sem_signal(&o);
    sem_acquire(&l);
    water++;
-   watermade();
-   //printf(0,"water created\n");
+   printf(1,"water created\n");
    sem_signal(&l);
+
+   texit();
 }
-
-int main()
-{
-   sem_init(&h, 0);
-   sem_init(&o, 0);
-   sem_init(&l, 1);
-
-   void *tid1 = thread_create(hReady, (void*)0);
-   if (tid1 == 0) printf(1, "thread_create failed\n");
-   void *tid2 = thread_create(hReady, (void*)0);  
-   if (tid2 == 0) printf(1, "thread_create failed\n");
-   void *tid3 = thread_create(oReady, (void*)0);
-   if (tid3 == 0) printf(1, "thread_create failed\n");
-
-   return 0;
-}
-

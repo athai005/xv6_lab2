@@ -1,5 +1,5 @@
-#ifndef QUEUE_C
-#define QUEUE_C
+//#ifndef QUEUE_C
+//#define QUEUE_C
 #include "queue.h"
 #include "types.h"
 #include "user.h"
@@ -51,4 +51,4 @@ int front(struct queue * q)
 {
 	return q->head->value;
 }
-#endif
+//#endif

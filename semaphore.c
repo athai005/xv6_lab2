@@ -1,13 +1,26 @@
 #ifndef _SEMAPHORE_
 #define _SEMAPHORE_
-#include "queue.c"
+#include "queue.h"
+#include "types.h"
+#include "user.h"
+
+int wait(void);
+int getpid(void);
+
 struct Semaphore
 {
    int count;
    struct queue q;
 };
 
-void sem_init(struct Semaphore * s, int v)
+typedef struct Semaphore Semaphore;
+
+int sem_count(Semaphore* s)
+{
+	return s->count;
+}
+
+void Sem_init(struct Semaphore * s, int v)
 {
    s->count = v;
    init_q(&(s->q)); 
@@ -25,6 +38,7 @@ void sem_acquire(struct Semaphore *s)
    {
       add_q(&(s->q),getpid());
       while(s->count == 0 || front(&(s->q)) != getpid()) wait();
+      pop_q(&(s->q));
    }
 }
 

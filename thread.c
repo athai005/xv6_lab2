@@ -1,5 +1,3 @@
-#ifndef _THREAD_
-#define _THREAD_
 #include "types.h"
 #include "user.h"
 #define PSIZE (4096)
@@ -66,4 +64,3 @@ int random(int max){
     rands = rands * 1664525 + 1013904233;
     return (int)(rands % max);
 }
-#endif
