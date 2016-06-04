@@ -25,7 +25,7 @@ void MissionaryArrives(void* v)
    {
       sem_signal(&l);
       sem_acquire(&m);
-      sem_acquire(&l);
+     // sem_acquire(&l);
    }
    else
    {
@@ -33,10 +33,11 @@ void MissionaryArrives(void* v)
       {
          miss = miss-2;
          cann--;
-         sem_signal(&m);
          sem_signal(&c);
+         sem_signal(&l);
+   			 rowboat();
       }
-      else
+      else if (miss >= 3)
       {
          miss = miss - 3;
          sem_signal(&m);
@@ -44,6 +45,7 @@ void MissionaryArrives(void* v)
    			 sem_signal(&l);
    			 rowboat();
       }
+      else if (miss == 1 && cann == 2) exit();
    }
 
    texit();
@@ -67,8 +69,9 @@ void CannibalArrives(void* v)
          sem_signal(&m);
          sem_signal(&m);
          sem_signal(&l);
+         rowboat();
       }
-      else
+      else if (cann >= 3) 
       {
          cann = cann -3;
          sem_signal(&c);
@@ -76,6 +79,7 @@ void CannibalArrives(void* v)
          sem_signal(&l);
          rowboat();
       }
+      else if (miss == 1 && cann == 2) exit();
    }
    texit();
 }
@@ -100,6 +104,12 @@ int main(int argc, char* argv[])
 	{
 		exit();
 	}
+	if ( (numm + numc)%3 != 0)
+	{
+		numm = numm - (numm%3);
+		numc = numc - (numc%3);
+	}
+	//else if (numm%3 == 1 && numc%3 == 2) exit();
 
    Sem_init(&l, 1);
    Sem_init(&m, 0);
