@@ -10,6 +10,9 @@ Semaphore h;
 Semaphore o;
 Semaphore l;
 
+int numh = 20;
+int numo = 10;
+
 int main()
 {
 
@@ -17,10 +20,16 @@ int main()
    Sem_init(&o, 0);
    Sem_init(&l, 1);
 
+  int i = 0;
 
-   thread_create(hReady,(void*)&water);
-   thread_create(hReady,(void*)&water);  
-   thread_create(oReady,(void*)&water);
+	for(i = 0; i < numh; i++)
+	{
+		thread_create(hReady,(void*)&water);
+	}
+	for(i = 0; i < numo; i++)
+	{
+		thread_create(oReady,(void*)&water);
+	}
    
    //main waits for threads to exit   
    while(wait() >= 0);
@@ -43,7 +52,7 @@ void oReady(void* v)
    sem_signal(&o);
    sem_acquire(&l);
    water++;
-   printf(1,"water molecule created\n");
+   printf(1,"water molecule #%d created\n", water);
    sem_signal(&l);
 
    texit();

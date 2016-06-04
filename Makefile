@@ -178,6 +178,8 @@ UPROGS=\
 	_zombie\
 	_nulltest\
 	_h2o\
+	_h2o_2\
+	_h2o_custom\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
