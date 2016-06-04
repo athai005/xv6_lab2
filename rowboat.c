@@ -9,6 +9,9 @@ Semaphore c;
 int miss = 0;
 int cann = 0;
 
+int numm = 0;
+int numc = 0;
+
 void rowboat()
 {
    printf(1,"Rowboat sent\n");
@@ -85,19 +88,25 @@ int main(int argc, char* argv[])
 		exit();
 	}
 
-	miss = atoi(argv[1]);
-	cann = atoi(argv[2]);
+	numm = atoi(argv[1]);
+	numc = atoi(argv[2]);
+
+	if (numm == 1 && numc == 2)
+	{
+		printf(1, "Congratulations! You just let two cannibals kill a missionary.\n");
+		exit();
+	}
 
    Sem_init(&l, 1);
    Sem_init(&m, 0);
    Sem_init(&c, 0);
 
 	int i = 0;
-	for (i = 0; i < miss; i++)
+	for (i = 0; i < numm; i++)
 	{
 		thread_create(MissionaryArrives, (void*)0);
 	}
-	for (i = 0; i < cann; i ++)
+	for (i = 0; i < numc; i ++)
 	{
 		thread_create(CannibalArrives, (void*)0);
 	}
