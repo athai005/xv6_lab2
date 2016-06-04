@@ -24,12 +24,19 @@ int main(int argc, char * argv[])
 	numh = atoi(argv[1]);
 	numo = atoi(argv[2]);
 
+	printf(1, "Combining %d hydrogen and %d oxygen\n", numh, numo);
+
+  int numomax = numh/2;
+  if (numomax < numo) numo = numomax;
+
+	printf(1, "%d water molecules should be created\n\n", numo);
+
   Sem_init(&h, 0);
   Sem_init(&o, 0);
   Sem_init(&l, 1);
 
-  int i = 0;
 
+  int i = 0;
 	for(i = 0; i < numh; i++)
 	{
 		thread_create(hReady,(void*)&water);

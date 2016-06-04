@@ -15,6 +15,8 @@ int numo = 10;
 
 int main()
 {
+	printf(1, "Combining 20 hydrogen and 10 oxygen.\n"); 
+	printf(1, "10 water molecules should be created.\n\n");
 
    Sem_init(&h, 0);
    Sem_init(&o, 0);

@@ -12,6 +12,8 @@ Semaphore l;
 
 int main()
 {
+	printf(1, "Combining 2 hydrogen and 1 oxygen\n");
+	printf(1, "1 water molecule should be created\n\n");
 
    Sem_init(&h, 0);
    Sem_init(&o, 0);
