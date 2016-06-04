@@ -180,6 +180,7 @@ UPROGS=\
 	_h2o\
 	_h2o_2\
 	_h2o_custom\
+	_monkey\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
